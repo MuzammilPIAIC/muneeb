@@ -1,0 +1,228 @@
+<!--inherits the layout-->
+{% extends '_base.html' %}
+<!--static-->
+{% load static %}
+<!--title-->
+{% block title %}Record Your Voice{% endblock title %}
+
+<!--additional css-->
+
+{% block css %}
+<link href="{% static 'assets/css/video-js.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/css/all.min.css' %}" rel="stylesheet" />
+<link
+  href="{% static 'assets/css/videojs.wavesurfer.min.css' %}"
+  rel="stylesheet"
+/>
+<link href="{% static 'assets/css/videojs.record.css' %}" rel="stylesheet" />
+<style>
+  /* change player background color */
+  #recordAudio {
+    background-color: #3e8ed0;
+  }
+</style>
+{% endblock css %}
+
+
+
+{% block header %}
+<link href="{% static 'web/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"> 
+<link href="{% static 'web/css/dashboard.css' %}" rel="stylesheet" type="text/css">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="{% static 'web/css/owl.carousel.min.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'web/css/owl.theme.default.min.css' %}" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css" type="text/css">
+<link rel="stylesheet" href="{% static 'web/css/animate.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'web/css/style.css' %}" type="text/css">
+  
+{% endblock %}
+
+<!--content-->
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-offset-4 is-4">
+        <h1 class="title">Record audio</h1>
+        <article class="message is-success" id="alert" hidden>
+          <div class="message-header">
+            <p>Recorded successfully!</p>
+            <button class="delete" aria-label="delete"></button>
+          </div>
+          <div class="message-body">
+            You have successfully recorded your message. You can now click on
+            the Submit button to post it.
+          </div>
+        </article>
+
+        <form method="POST" enctype="multipart/form-data" hidden>
+          {% csrf_token %}
+          <div class="field">
+            <div class="control has-icons-left has-icons-right">
+              <input
+                class="input"
+                type="text"
+                placeholder="Language"
+                name="language"
+                id="language"
+              />
+              <span class="icon is-left">
+                <i class="fas fa-language"></i>
+              </span>
+              <span class="icon is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+            <div
+              class="control has-icons-left has-icons-right"
+              style="margin-top: 1rem"
+            >
+              <audio id="recordAudio" class="video-js vjs-default-skin"></audio>
+            </div>
+            <div class="control" style="margin-top: 1rem">
+              <button class="button is-info" id="submit">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="container-xl">
+	<div class="row">
+		<div class="col-lg-8 mx-auto">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+				<div class="carousel-inner">
+            {% for dd in step_data2 %}
+              <div class="carousel-item" id = 'step-{{dd.page_no}}'>
+                <div class="days-left position-relative">
+                  <div class="days-left-popup">
+                    <span id = 'time'> Time Left {{dd.duration_in_sec}}</span>
+                  </div>
+                </div>
+                <br>
+                <br>
+                
+                {% for data in dd.question %}
+                    <h3 class="testimonial text-center">{{data}}</h3>
+                {% endfor %}
+              </div>
+            {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<center>
+  {% for ls in step_range %}
+    {{ls}} 
+  {% endfor %}
+<br>
+
+<button onclick="next()" class="nect" id = 'start-text' style = 'display:None;'>Start</button>
+<button id = 'start-slide' onclick="start_slide()"> Start</button>
+
+</center>
+
+
+{% endblock content %}
+
+<!--additional js-->
+{% block js %}
+<script src="{% static 'assets/js/video.min.js' %}"></script>
+<script src="{% static 'assets/js/RecordRTC.js' %}"></script>
+<script src="{% static 'assets/js/adapter-latest.js' %}"></script>
+<script src="{% static 'assets/js/wavesurfer.js' %}"></script>
+<script src="{% static 'assets/js/wavesurfer.microphone.min.js' %}"></script>
+<script src="{% static 'assets/js/videojs.wavesurfer.min.js' %}"></script>
+
+<script src="{% static 'assets/js/videojs.record.min.js' %}"></script>
+<script src="{% static 'assets/js/browser-workaround.js' %}"></script>
+<script src="{% static 'assets/js/real.recording.js' %}"></script>
+
+
+
+<script src="{% static 'web/js/jquery-3.6.0.slim.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/jquery.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/jquery.dataTables.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/assets/dist/js/bootstrap.bundle.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/feather.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/dashboard.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/assets/dist/js/htmx.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/assets/dist/js/htmx.js' %}"     type="test/javascript"></script>
+
+<script src="{% static 'web/js/jquery.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/popper.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/bootstrap.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/owl.carousel.min.js' %}" type="test/javascript"></script>
+<script src="{% static 'web/js/main.js' %}" type="test/javascript"></script>
+
+
+
+<script>
+  var page_number_list  = '{{page_number_list}}';
+  var counter           = 0;
+  page_number_list      = JSON.parse(page_number_list)
+
+  function next(){
+
+    if (counter<page_number_list.length )
+    {
+          document.getElementsByClassName('nect')[0].innerHTML = 'Next'
+          try {
+            var current           = document.getElementsByClassName(" active");
+            current[0].className  = current[0].className.replace(" active", "");            }
+          catch(err) {};
+
+          id_                     = 'step-'+page_number_list[counter];
+          document.getElementById(id_).className += ' active';
+          counter++;
+    }
+    else if (counter===page_number_list.length )
+    {
+      document.getElementsByClassName('nect')[0].innerHTML = 'Finsh'
+      document.getElementsByClassName('vjs-icon-record-stop')[0].click()
+      document.getElementById('submit').click()
+      
+    }
+
+
+  }
+
+
+
+
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+  function start_slide(){
+    document.getElementsByClassName('vjs-icon-audio-perm')[0].click();
+    document.getElementById("start-text").click();
+    document.getElementById("start-text").style.display = "block"; 
+    document.getElementById("start-slide").style.display = "None"; 
+
+
+    setTimeout(function() {
+      document.getElementsByClassName('vjs-icon-record-start')[0].click();
+    }, 500);
+
+    
+  }
+  function end_slide(){
+    document.getElementsByClassName('vjs-icon-record-stop')[0].click()
+    document.getElementById('submit').click()
+  }
+
+
+
+</script>
+{% endblock js %}

@@ -1,0 +1,73 @@
+<!--inherits the layout-->
+{% extends '_base.html' %}
+<!--static-->
+{% load static %}
+<!--title-->
+
+{% block title %}Result{% endblock title %}
+
+<!--additional css-->
+
+<!--content-->
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-offset-4 is-4">
+        <h1 class="title">Recorded audio</h1>
+
+        <div class="card">
+            <button onClick="window.location.reload();" class="btn btn-primary" >Show now</button>
+          <div class="card-content">
+            <div class="content">
+              {% if display == '1' %}
+              <p>Text: {{text2}}</p>
+              {% else %}
+              <p>Text: {{text}}</p>
+              {% endif %}
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <p>Total Words: {{total_words}}</p>
+            <p>Grammer Mistakes: {{total_mistaks}}</p>
+            <p>Unique Words: {{unique_words}}</p>
+            <p>words that are not among the 5,000 most common English : {{total_rare_words}}</p>
+            <p>words that are among the 2,000 most frequently used English words   : {{total_common_words}}</p>
+            <h4>Repetations</h4>
+            <table class="table table-light table-hover" id="myTable">
+              <thead>
+              <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Word</th>
+                  <th scope="col">Time</th>
+                  
+
+              </tr>
+              </thead>
+              <tbody>
+                {% for key, value in repetation.items %}
+
+              <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{key}}</td>
+                  <td>{{value}}</td>
+              </tr>
+             
+              {% endfor %}
+              </tbody>
+          </table>
+            
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
