@@ -25,11 +25,11 @@ import pandas as pd
 
 
 header = {
-	'authorization': '7727ffe82eb44ca79081a199ded9354f',
+	'authorization': '92d481b159ef4c93a3e0fb9c81942306',
 	'content-type': 'application/json'
 }
 
-api_key = '7727ffe82eb44ca79081a199ded9354f'
+api_key = '92d481b159ef4c93a3e0fb9c81942306'
 
 upload_endpoint = "https://api.assemblyai.com/v2/upload"
 transcript_endpoint = "https://api.assemblyai.com/v2/transcript"
@@ -216,7 +216,7 @@ def unique(list1):
 
 def text(request,id):
     id_ = id
-    api_key = '7727ffe82eb44ca79081a199ded9354f'
+    api_key = '92d481b159ef4c93a3e0fb9c81942306'
 
     TRANSCRIPT_ENDPOINT = 'https://api.assemblyai.com/v2/transcript/' + str(id_)
 
