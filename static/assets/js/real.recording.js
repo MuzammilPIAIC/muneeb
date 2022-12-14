@@ -90,7 +90,7 @@ $("#submit").on("click", function (event) {
   //   change the button text and disable it
   btn.html("Submitting...").prop("disabled", true).addClass("disable-btn");
   //   create a new File with the recordedData and its name
-  const recordedFile = new File([player.recordedData], `audiorecord.wav`);
+  const recordedFile = new File([player.recordedData], `audiorecord.mp3`);
   //   grabs the value of the language field
   const language = document.getElementById("language").value;
   //   initializes an empty FormData
