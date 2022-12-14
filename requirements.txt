@@ -73,7 +73,6 @@ python-dotenv==0.21.0
 python-Levenshtein==0.20.5
 pytz==2021.1
 pytz-deprecation-shim
-pywin32
 pyxdg==0.27
 pyxlsb==1.0.9
 PyYAML==6.0
