@@ -333,3 +333,9 @@ def text(request,id):
         print(exc_type, fname, exc_tb.tb_lineno)
 
 
+def new_voice(request):
+    
+    context = {}
+    return render(request, "core/new.html", context)
+
+

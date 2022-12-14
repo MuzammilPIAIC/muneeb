@@ -10,6 +10,7 @@ app_name = "core"
 urlpatterns = [
     path("l", views.index, name="index"),
     path("", views.record, name="record"),
+    path("new/", views.new_voice, name="new"),
     path("record/detail/<uuid:id>/", views.record_detail, name="record_detail"),
     path("record/text/<str:id>/", views.text, name="text"),
 ]
