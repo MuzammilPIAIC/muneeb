@@ -33,7 +33,7 @@ SECRET_KEY = config(
 DEBUG = False
 
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['128.199.18.206']
+ALLOWED_HOSTS = ['128.199.18.206','0.0.0.0','localhost','127.0.0.1']
 
 
 # Application definition
