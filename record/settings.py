@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
-import cloudinary
-import cloudinary_storage
-from decouple import config
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,8 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core.apps.CoreConfig",
     # Media Cloudinary
-    "cloudinary",
-    "cloudinary_storage",
+    
 ]
 
 
@@ -139,25 +134,17 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": config("CLOUD_NAME", default=""),
-    "API_KEY": config("API_KEY", default=""),
-    "API_SECRET": config("API_SECRET", default=""),
-}
 
-if DEBUG:
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = BASE_DIR / "media"
-else:
-    MEDIA_URL = "/media/"
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+# if DEBUG:
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+# else:
+#     MEDIA_URL = "/media/"
+#     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-import dj_database_url
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES["default"].update(db_from_env)
