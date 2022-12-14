@@ -270,8 +270,10 @@ def text(request,id):
             correct_text = parser.parse(new_txt)
             print(correct_text)
 
-
-            total_mistaks += len(correct_text['Corrections'])
+            try:
+                total_mistaks += len(correct_text['Corrections'])
+            except:
+                total_mistaks += len(correct_text['corrections'])
 
         s = unique(words_list)
         unique_words = len(s)
