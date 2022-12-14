@@ -213,114 +213,121 @@ def unique(list1):
     uniqueNpArray1 = np.unique(npArray1)
     return uniqueNpArray1.tolist()
 
+import sys, os
 
 def text(request,id):
-    id_ = id
-    api_key = '92d481b159ef4c93a3e0fb9c81942306'
+    try:
+        id_ = id
+        api_key = '92d481b159ef4c93a3e0fb9c81942306'
 
-    TRANSCRIPT_ENDPOINT = 'https://api.assemblyai.com/v2/transcript/' + str(id_)
-
-
-
-    response = requests.get(
-      TRANSCRIPT_ENDPOINT,
-      headers={'authorization': api_key},
-    )
-
-    response_json = response.json()
-    text = response_json['text']
+        TRANSCRIPT_ENDPOINT = 'https://api.assemblyai.com/v2/transcript/' + str(id_)
 
 
-    total_words = ''
-    total_mistaks = ''
-    unique_words = ''
-    total_rare_words = ''
-    total_common_words = ''
-    new_dict = {}
-    display = '0'
-    if str(text) == "None":
-        display = '1'
-        text2 = "We are converting your voice to text. click on 'Show Now' after 5 seconds"
-        text = ''
+
+        response = requests.get(
+        TRANSCRIPT_ENDPOINT,
+        headers={'authorization': api_key},
+        )
+
+        response_json = response.json()
+        text = response_json['text']
 
 
-    # text = '''In early FY23, Pakistan’s economy was undergoing an overdue adjustment, as it recovered from the impacts of COVID-19. Supported by accommodative macroeconomic policies, the economy expanded by 6.0 percent in FY22. Strong domestic demand, coupled with low productivity growth, high world commodity prices, and the global economic slowdown contributed to severe external imbalances. To stabilize the economy, the Government began implementing a range of policies to constrain aggregate demand, including a contractionary budget and increases in administered energy prices. As a result of stabilization measures, growth was expected to slow, the exchange rate was expected to stabilize, total public debt was expect to decline gradually from current high levels, while foreign exchange reserves were expected to slowly accumulate.
-    # Recent floods have had enormous human and economic impacts. Pakistan has been experiencing heavy monsoon rains since June 2022 leading to catastrophic and unprecedented flooding. Almost 15% of the country are underwater and just over 33 million peoples are affected. More than 2 million houses have been damaged or destroyed. Loss of life has also been considerable with 1,700 fatalities report to date. Loss of livestock is also significant with more than 1.1 million animals estimated to have perished, while over 25,000 animal shelters have been damaged. More than 13,000 km of roads is reported to have been affected and 440 bridges have been damaged or destroyed, with these number expected to rise. Economic impacts are concentrate in the agricultural sector, with over 9.4 million acres of cultivated land destroyed, resulting in significant losses to cotton, date, wheat, and rice crops. Lower agriculture output is expected to negatively impact industrial and services sector activity, especially given textile sector reliance on cotton (textiles account for around 25 percent of industrial output). Flooding will impose a lingering drag on output through infrastructure damage, disruption to crop cycles, possible financial sector impacts (microfinance institutions report major solvency problems), and loss of human capital. Preliminary estimates suggest that as a direct consequence of the flood, the national poverty rate will increase by 2.5 to 4.0 percentage points, pushing between 5.8 and 9.0 million people into poverty.'''
-    words_list = text.strip().split(' ')
-    # if str(text) != "None":
-
-    words_list = text.strip().split(' ')
-    total_words = len(words_list)
-
-    all_ =  str(text).split(' ')
-    chunk_size = 50
-    my_list = all_
-    new_text = list(split2(my_list, chunk_size))
-
-
-    total_mistaks = 0
-
-    for i in new_text:
-        print(len(i))
-        new_txt = ' '.join(i)
-        # print(new_txt)
-        parser = GingerIt()
-        correct_text = parser.parse(new_txt)
-        print(correct_text)
+        total_words = ''
+        total_mistaks = ''
+        unique_words = ''
+        total_rare_words = ''
+        total_common_words = ''
+        new_dict = {}
+        display = '0'
+        if str(text) == "None":
+            display = '1'
+            text2 = "We are converting your voice to text. click on 'Show Now' after 5 seconds"
+            text = ''
 
 
-        total_mistaks += len(correct_text['Corrections'])
+        # text = '''In early FY23, Pakistan’s economy was undergoing an overdue adjustment, as it recovered from the impacts of COVID-19. Supported by accommodative macroeconomic policies, the economy expanded by 6.0 percent in FY22. Strong domestic demand, coupled with low productivity growth, high world commodity prices, and the global economic slowdown contributed to severe external imbalances. To stabilize the economy, the Government began implementing a range of policies to constrain aggregate demand, including a contractionary budget and increases in administered energy prices. As a result of stabilization measures, growth was expected to slow, the exchange rate was expected to stabilize, total public debt was expect to decline gradually from current high levels, while foreign exchange reserves were expected to slowly accumulate.
+        # Recent floods have had enormous human and economic impacts. Pakistan has been experiencing heavy monsoon rains since June 2022 leading to catastrophic and unprecedented flooding. Almost 15% of the country are underwater and just over 33 million peoples are affected. More than 2 million houses have been damaged or destroyed. Loss of life has also been considerable with 1,700 fatalities report to date. Loss of livestock is also significant with more than 1.1 million animals estimated to have perished, while over 25,000 animal shelters have been damaged. More than 13,000 km of roads is reported to have been affected and 440 bridges have been damaged or destroyed, with these number expected to rise. Economic impacts are concentrate in the agricultural sector, with over 9.4 million acres of cultivated land destroyed, resulting in significant losses to cotton, date, wheat, and rice crops. Lower agriculture output is expected to negatively impact industrial and services sector activity, especially given textile sector reliance on cotton (textiles account for around 25 percent of industrial output). Flooding will impose a lingering drag on output through infrastructure damage, disruption to crop cycles, possible financial sector impacts (microfinance institutions report major solvency problems), and loss of human capital. Preliminary estimates suggest that as a direct consequence of the flood, the national poverty rate will increase by 2.5 to 4.0 percentage points, pushing between 5.8 and 9.0 million people into poverty.'''
+        words_list = text.strip().split(' ')
+        # if str(text) != "None":
 
-    s = unique(words_list)
-    unique_words = len(s)
+        words_list = text.strip().split(' ')
+        total_words = len(words_list)
 
-    _5000_english = os.path.join(settings.MEDIA_ROOT, str('5000_english_words.txt'))
-    with open(_5000_english) as file_in:
-        lines = []
-        for line in file_in:
-            lines.append(line)
-
-    lines = [x.replace('\n','') for x in lines]
-
-    rare_words = []
-    for i in words_list:
-        if i not in lines:
-            rare_words.append(i)
-
-    total_rare_words = len(rare_words)
-
-    _2000_english = os.path.join(settings.MEDIA_ROOT, str('2000_english_words.txt'))
-    with open(_2000_english) as file_in:
-        lines2 = []
-        for line in file_in:
-            lines2.append(line)
-
-    lines2 = [x.replace('\n','') for x in lines2]
-
-    common_word = []
-    for i in words_list:
-        if i in lines2:
-            common_word.append(i)
-
-    total_common_words = len(common_word)
-
-    dict_of_counts = {item:words_list.count(item) for item in words_list}
+        all_ =  str(text).split(' ')
+        chunk_size = 50
+        my_list = all_
+        new_text = list(split2(my_list, chunk_size))
 
 
-    new_dict = {}
-    for k,l in dict_of_counts.items():
-        if l >= 3:
-            new_dict[k] = l
+        total_mistaks = 0
 
+        for i in new_text:
+            print(len(i))
+            new_txt = ' '.join(i)
+            # print(new_txt)
+            parser = GingerIt()
+            correct_text = parser.parse(new_txt)
+            print(correct_text)
+
+
+            total_mistaks += len(correct_text['Corrections'])
+
+        s = unique(words_list)
+        unique_words = len(s)
+
+        _5000_english = os.path.join(settings.MEDIA_ROOT, str('5000_english_words.txt'))
+        with open(_5000_english) as file_in:
+            lines = []
+            for line in file_in:
+                lines.append(line)
+
+        lines = [x.replace('\n','') for x in lines]
+
+        rare_words = []
+        for i in words_list:
+            if i not in lines:
+                rare_words.append(i)
+
+        total_rare_words = len(rare_words)
+
+        _2000_english = os.path.join(settings.MEDIA_ROOT, str('2000_english_words.txt'))
+        with open(_2000_english) as file_in:
+            lines2 = []
+            for line in file_in:
+                lines2.append(line)
+
+        lines2 = [x.replace('\n','') for x in lines2]
+
+        common_word = []
+        for i in words_list:
+            if i in lines2:
+                common_word.append(i)
+
+        total_common_words = len(common_word)
+
+        dict_of_counts = {item:words_list.count(item) for item in words_list}
+
+
+        new_dict = {}
+        for k,l in dict_of_counts.items():
+            if l >= 3:
+                new_dict[k] = l
+
+
+            
 
         
 
-    
+        context = {'text':text,'total_words':total_words, 'total_mistaks':total_mistaks, 'unique_words':unique_words, 
+        'total_rare_words':total_rare_words, 'total_common_words':total_common_words, 'repetation':new_dict,
+        'display' : display, 'text2' : text2
+        
+        }
+        return render(request, "core/index.html", context)
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
 
-    context = {'text':text,'total_words':total_words, 'total_mistaks':total_mistaks, 'unique_words':unique_words, 
-    'total_rare_words':total_rare_words, 'total_common_words':total_common_words, 'repetation':new_dict,
-    'display' : display, 'text2' : text2
-    
-    }
-    return render(request, "core/index.html", context)
 
