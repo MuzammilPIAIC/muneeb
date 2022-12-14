@@ -54,22 +54,22 @@ def upload_file(audio_file, header):
 
 def record(request):
     if request.method == "POST":
-        try:
-            audio_file = request.FILES.get("recorded_audio")
-            language = request.POST.get("language")
-            record = Record.objects.create(language=language, voice_record=audio_file)
-            record.save()
-            messages.success(request, "Audio recording successfully added!")
-            return JsonResponse(
-                {
-                    "url": record.get_absolute_url(),
-                    "success": True,
-                }
-            )
-        except Exception as e:
-            f = open('static/log.txt', 'a+')
-            f.write('An exceptional thing happed - %s' % e)
-            f.close()
+        # try:
+        audio_file = request.FILES.get("recorded_audio")
+        language = request.POST.get("language")
+        record = Record.objects.create(language=language, voice_record=audio_file)
+        record.save()
+        messages.success(request, "Audio recording successfully added!")
+        return JsonResponse(
+            {
+                "url": record.get_absolute_url(),
+                "success": True,
+            }
+        )
+        # except Exception as e:
+        #     f = open('static/log.txt', 'a+')
+        #     f.write('An exceptional thing happed - %s' % e)
+        #     f.close()
 
 
     step_data           = {}
